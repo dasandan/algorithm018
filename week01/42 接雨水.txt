@@ -1,0 +1,28 @@
+/*
+1.从两边双指针往中间推
+2.长度小于3时没有容器可以接水
+需要四个变量
+容量=最近最高-当前高度
+和能最多水的容器的题目其实差不多 一个是用两端最短的那个来做高，这个是用比当前长度长的最近长度来做高
+*/
+
+
+
+class Solution {
+    public int trap(int[] height) {
+      if(height.length < 3) return 0;
+      int left = 0, right = height.length-1;
+      int left_max = height[left], right_max = height[right];
+      int ans = 0;
+      while (left < right){
+        if (left_max < right_max){
+          ans = ans + left_max - height[left++];
+          left_max = Math.max(left_max,height[left]);
+        }else{
+          ans = ans + right_max -height[right--];
+          right_max = Math.max(right_max,height[right]);
+        }
+      }
+      return ans;
+    }
+}

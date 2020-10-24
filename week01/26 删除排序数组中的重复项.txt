@@ -1,0 +1,16 @@
+//用的双指针的方法,比较当前数字和下一个数字是否一致，不一致的话就把那个数字放在当前数字的下一个
+
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+      int left = 0, right = 1;
+      while(right < nums.length){
+        if(nums[left] != nums[right]){
+          nums[left + 1] = nums[right];
+          left++;
+        }
+        right++;
+      }
+      return left + 1;
+    }
+}

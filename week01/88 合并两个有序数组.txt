@@ -1,0 +1,14 @@
+//关键要想到逆序来进行合并，这样就可以减少时间复杂度
+
+
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+      int nums1_right = m + n - 1;
+      int nums1_p = m - 1;
+      int nums2_p = n - 1;
+      while((nums1_p >= 0) && (nums2_p >= 0)) {
+        nums1[nums1_right--] = (nums1[nums1_p] < nums2[nums2_p]) ? nums2[nums2_p--] : nums1[nums1_p--];
+      }
+      System.arraycopy(nums2, 0, nums1, 0, nums2_p + 1);
+    }
+}
