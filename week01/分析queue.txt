@@ -1,0 +1,6 @@
+add 添加成功返回true 不成功抛异常：	IllegalStateException 空间不足；ClassCastException 类不允许被添加；NullPointerException 添加的是null；IllegalArgumentException 元素的属性不允许被添加
+offer 添加成功 true 不成功false
+remove 移除队首元素，返回的是队首的元素 空队列抛异常
+poll 移除队首元素，返回队首的元素 空队列返回null
+element 返回队首的元素，但是不删除 空队列抛异常
+peek 返回队首的元素，但是不删除 空队列返回null

@@ -1,0 +1,15 @@
+  Deque<String> deque = new LinkedList<String>();
+
+  deque.addFrist("b");
+  deque.addFrist("a");
+  deque.addLast("c");
+
+  System.out.println(deque);
+
+  String str1 = deque.peekFirst();
+  String str2 = deque.peekLast();
+
+  while(deque.size() > 0){
+    System.out.println(deque.removeFirst());
+    System.out.println(deque);
+  }
