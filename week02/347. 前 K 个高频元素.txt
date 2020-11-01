@@ -1,0 +1,36 @@
+/*
+https://leetcode-cn.com/problems/top-k-frequent-elements/
+时间复杂度 nlogk
+小顶堆
+比较烦的一点是统计的是数字出现的次数，输出的却是数字
+所以在小顶堆里存的是一个数组，这样子可以在比较的时候比较次数，打印数组的时候打印他本身的数字
+*/
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+      Map<Integer, Integer> map = new HashMap<>();
+      for(int num : nums){
+        map.put(num, map.getOrDefault(num,0) + 1);
+      }
+      //前k大，用小顶堆
+      PriorityQueue<Integer[]> minHeap = new PriorityQueue<Integer[]>(new Comparator<Integer[]>(){
+        @Override
+        public int compare(Integer[] o1, Integer[] o2){
+          return o1[1] - o2[1];
+        }
+      });
+      for(Integer key : map.keySet()){
+        if(minHeap.size() < k){
+          minHeap.offer(new Integer[] {key,map.get(key)});
+        }else if(map.get(key) > minHeap.peek()[1]){//小顶堆，最上面一个元素是最小的，如果外面的比这个元素大，就替换进来，这样子小顶堆里存的就是前k个大的。
+          minHeap.poll();
+          minHeap.offer(new Integer[]{key,map.get(key)});
+        }
+      }
+  int[] res = new int[k];
+  for(int i = 0 ; i < k; i ++){
+    res[i] = minHeap.poll()[0];
+  }
+  return res;
+}
+}

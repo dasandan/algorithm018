@@ -1,0 +1,30 @@
+#由于可以不考虑最后答案的输出顺序，我们可以将26个字母乱序的按哈希表来存储键值对，标识在当前字符串内出现的次数。
+#将相同次数的字符串放到一个数组中去
+#String.valueOf(char[] ca)方法，返回ca数组的字符串表现形式
+#map.values() 获取Map集合中的所有键值对象
+#时间复杂度O(NK) N是strs的长度，K是strs中最长字符串的长度
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+      
+      if (strs == null || strs.length == 0) return new ArrayList<>();
+
+      Map<String, List<String>> map = new HashMap<String,List<String>>();
+      //从list中分割出字符串
+      for(String s : strs){
+        char[] ca = new char[26];
+        //从字符串里遍历字符
+        for (char c : s.toCharArray()) ca[c - 'a']++;
+        将ca数组变成字符串
+        String keystr = String.valueOf(ca);
+        //判断map中有没有这个字符串，如果没有这个字符串，
+        //说明还没有出现和这个字符串一样的字母异位词，
+        //要新建一个list，把它存放到map中
+        if (!map.containsKey(keyStr))
+            map.put(keyStr, new ArrayList<>());
+        //把字符串存放到对应的list中
+        map.get(keyStr).add(strs[i]);
+      }
+      return new ArrayList<>(map.values());
+    }
+}

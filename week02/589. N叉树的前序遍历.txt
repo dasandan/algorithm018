@@ -1,0 +1,42 @@
+#其实和二叉树的前序是一个理解
+#递归的话就用一个for来遍历当前节点的所有子树
+#时间复杂度是O（n）
+class Solution {
+    public List<Integer> preorder(Node root) {
+        List<Integer> res = new ArrayList<Integer>();
+        dfs(root,res);
+        return res;
+    }
+
+    public void dfs(Node root, List<Integer> res){
+      if(root == null) return;
+      res.add(root.val);
+
+      for(Node Node : root.children){
+        dfs(Node,res);
+      }
+      
+    }
+}
+
+#迭代写法，要逆序输入所有的子树
+#时间复杂度是O（n）
+class Solution {
+  public List<Integer> preorder(Node root) {
+    List<Integer> res= new ArrayList<>();
+    Stack<Node> stack = new Stack<>();
+    if (root == null) {
+      return res;
+    }
+
+    stack .add(root);
+    while (!stack .isEmpty()) {
+      Node node = stack.pop();
+      res.add(node.val);
+
+      for (int i = node.children.size() - 1; i >= 0; i--)
+        stack.add(node.children.get(i));
+    }
+    return res;
+  }
+}

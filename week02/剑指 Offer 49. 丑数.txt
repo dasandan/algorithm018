@@ -1,0 +1,41 @@
+#时间复杂度O（n）
+#用了三指针动态规划
+#题解质因子，所以再大的丑数也只能通过前一个丑数*2 or *3 or *5来实现，我们要找的就是这三种情况中最小的那个
+#但是要用三个if来记录指针，因为比如30，可能是6*5，可能是10*3 如果用else可能会漏记指针导致重复
+class Solution {
+    public int nthUglyNumber(int n) {
+      int p2 = 0, p3 = 0,  p5 = 0;
+      int[] dp = new int[n];
+      dp[0] = 1;
+      for(int i = 1; i < n; i++){
+        dp[i] = Math.min(Math.min(dp[p2] * 2, dp[p3] * 3),dp[p5] * 5);
+        if(dp[i] == dp[p2]*2) p2++;
+        if(dp[i] == dp[p3]*3) p3++;
+        if(dp[i] == dp[p5]*5) p5++;
+      }
+      return dp[n - 1];
+    }
+}
+
+
+#还有一个一开始的思路，用小顶堆来做，拿出来的是输进去的丑数里最小的那个，但是进行了三次add操作，复杂度高很多，而且每次还要把顶上的元素poll掉
+#时间复杂度应该是O（nlogn）
+class Solution {
+    public int nthUglyNumber(int n) {
+        long cur = 0L;
+        PriorityQueue<Long> pq =new PriorityQueue<>();
+        pq.offer(1L);
+        while(n > 0){
+            if(pq.peek() != cur){
+                cur = pq.poll();
+                n--;
+                pq.add(cur * 2);
+                pq.add(cur * 3);
+                pq.add(cur * 5);
+            }else{
+                pq.poll();
+            }
+        }
+        return (int)cur;
+    }
+}
