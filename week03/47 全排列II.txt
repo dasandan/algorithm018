@@ -1,0 +1,48 @@
+#回溯法
+#给定一个元素重复的数组，可以通过判断上一次是否使用过，以及是否正在使用来避免输出重复的数组。
+#但是判断上一次时候只用过的时候的前提时这个数组内部应该是已经被排序好的
+class Solution {
+  public List<List<Integer>> permuteUnique(int[] nums) {
+    int len = nums.length;
+    List<List<Integer>> res = new ArrayList<>();
+    if (len == 0) return res;
+
+
+    Arrays.sort(nums);
+
+
+    boolean[] used = new boolean[len];
+    Deque<Integer> path = new ArrayDeque<>();
+
+
+    dfs(nums, len, 0, path, used, res);
+    return res;
+  }
+
+
+  private void dfs(int[] nums, int len, int depth, Deque<Integer> path, boolean[] used, List<List<Integer>> res) {
+    if (depth == len) {
+      res.add(new ArrayList<>(path));
+      return;
+    }
+    for (int i = 0; i < len; i++) {
+      if (used[i]) {
+       continue;
+      }
+      if(i > 0 && nums[i] == nums[i - 1] && !used[i-1]){
+        continue;
+      }
+
+
+      path.addLast(nums[i]);
+      used[i] = true;
+
+
+      dfs(nums,len,depth+1,path,used,res);
+
+
+      used[i] = false;
+      path.removeLast();
+    }
+  }
+}

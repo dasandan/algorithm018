@@ -1,0 +1,30 @@
+#递归法
+#TC O(n)  SC O(n)
+#我们可以根据前序遍历和中序遍历的结果来反推，前序遍历是根左右，中序遍历时左根右。
+#这样我们可以在前序遍历中找到需要的根节点，在中序遍历中确定应该在上一个根节点的左子树还是右子树。
+#然后递归调用来建树
+
+
+class Solution {
+  public TreeNode buildTree(int[] preorder, int[] inorder) {
+    return buildTreeHelper(preorder, 0, preorder.length, inorder, 0, inorder.length);
+  }
+
+
+  private TreeNode buildTreeHelper(int[] preorder, int p_start, int p_end, int[] inorder, int i_start, int i_end) {
+    if (p_start == p_end) return null;
+    int root_val = preorder[p_start];
+    TreeNode root = new TreeNode(root_val);
+    int i_root_index = 0;
+    for (int i = i_start; i < i_end; i++) {
+      if (root_val == inorder[i]) {
+        i_root_index = i;
+        break;
+      }
+    }
+    int leftnum = i_root_index - i_start;
+    root.left = buildTreeHelper(preorder,p_start+1,p_start+leftnum+1,inorder,i_start,i_root_index);
+    root.right = buildTreeHelper(preorder,p_start + leftnum + 1,p_end,inorder,i_root_index+1,i_end);
+    return root;
+  }
+}

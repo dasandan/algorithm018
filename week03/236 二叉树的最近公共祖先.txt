@@ -1,0 +1,24 @@
+#因为要先知道所有的情况，所以用后序遍历是比较合适的
+#TC O(n)  SC O(n)
+
+#终止条件：
+    当root==null，返回null
+    当root等于p或者q，返回root
+#递推左右子树
+#处理当前节点：
+    如果left，right都是空，那就证明root的子树中不包含p、q，返回null
+    如果right是空，那证明pq在left里，返回left
+    如果left是空，那证明pq在right里，返回right
+    如果两个都不为空，那就证明root是最近公共祖先，返回root
+
+class Solution {
+  public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if(root == null || root == p || root == q) return root;
+    TreeNode left = lowestCommonAncestor(root.left, p , q);
+    TreeNode right = lowestCommonAncestor(root.right, p , q);
+    if(left == null && right == null) return  null;
+    if(left == null) return right;
+    if(right == null) return left;
+    return root;
+  }
+}
