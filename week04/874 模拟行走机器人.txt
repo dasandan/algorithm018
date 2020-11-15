@@ -1,0 +1,43 @@
+#贪心应该是体现在用Math.max上，每走一步就区当前情况下的最大值。
+#TC O(n+K) SC O(K)
+
+class Solution {
+  public int robotSim(int[] commands, int[][] obstacles) {
+    int[] direx = {0, 1, 0, -1};
+    int[] direy = {1, 0, -1, 0};
+    int curx = 0, cury = 0;
+    int curdir = 0;
+    int comlen = commands.length;
+    int ans = 0;
+    Set<Pair<Integer, Integer>> obstacleSet = new HashSet<>();
+
+
+    for(int i = 0; i < obstacles.length; i++){
+      obstacleSet.add(new Pair<>(obstacles[i][0],obstacles[i][1]));
+    }
+
+
+    for (int i = 0; i < comlen; i++) {
+      if (commands[i] == -1) {
+//比较搞脑子的地方，-1是右转，右转就是在当前方向坐标上右移一个方向。
+        curdir = (curdir + 1) % 4;
+      } else if (commands[i] == -2) {
+//-2要实现左转，左转就是左边那个坐标，就是+3取模
+        curdir = (curdir + 3) % 4;
+      }else{
+        for(int j = 0; j < commands[i] ; j++){
+          int nx = curx + direx[curdir];
+          int ny = cury + direy[curdir];
+          if(!obstacleSet.contains(new Pair<>(nx,ny))) {
+            curx = nx;
+            cury = ny;
+            ans = Math.max(ans, curx * curx + cury * cury);
+          }else{
+            break;
+          }
+        }
+      }
+    }
+    return ans;
+  }
+}

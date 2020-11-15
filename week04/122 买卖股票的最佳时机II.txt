@@ -1,0 +1,19 @@
+#TC O(n) SC O(1)
+#贪心体现在，我一旦后面有一天的股价是高的，我就抛掉，只看当下的选择
+#体现在代码中就是，今天价钱减去昨天的价钱，只要是正的我就加到结果中去
+
+class Solution {
+    public int maxProfit(int[] prices) {
+      int len = prices.length;
+      if(len < 2) return 0;
+
+
+      int res = 0;
+
+
+      for(int i = 1; i < len; i++){
+        res += Math.max(prices[i] - prices[i-1], 0);
+      }
+      return res;
+    }
+}

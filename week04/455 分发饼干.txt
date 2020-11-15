@@ -1,0 +1,22 @@
+#和找零钱的大致思路是差不多的。
+#优先用大的饼干来满足胃口大的小朋友，以免造成大饼干的浪费。小饼干可以留着用来满足胃口小的孩子。
+
+class Solution {
+  public int findContentChildren(int[] g, int[] s) {
+//要进行匹配的话就要先进行排序，不然无法做匹配
+    Arrays.sort(g);
+    Arrays.sort(s);
+    int res = 0;
+    int i = 0, j = 0;
+    while(i < g.length && j < s.length ){
+      if(g[i] <= s[j]){
+        res++;
+        i++;
+        j++;
+      }else{
+        j++;
+      }
+    }
+    return res;
+  }
+}
