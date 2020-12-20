@@ -1,0 +1,90 @@
+首先能够想到的就是暴力法，根据回文串的定义，对长度大于等于2的字串，双指针验证是否是回文串。
+用一个max记录当前得到最大的回文子串长度。
+时间复杂度是N^3
+public class Solution {
+
+    public String longestPalindrome(String s) {
+        int len = s.length();
+        if (len < 2) {
+            return s;
+        }
+
+        int maxLen = 1;
+        int begin = 0;
+        // s.charAt(i) 每次都会检查数组下标越界，因此先转换成字符数组
+        char[] charArray = s.toCharArray();
+
+        // 枚举所有长度大于 1 的子串 charArray[i..j]
+        for (int i = 0; i < len - 1; i++) {
+            for (int j = i + 1; j < len; j++) {
+                if (j - i + 1 > maxLen && validPalindromic(charArray, i, j)) {
+                    maxLen = j - i + 1;
+                    begin = i;
+                }
+            }
+        }
+        return s.substring(begin, begin + maxLen);
+    }
+
+    /**
+     * 验证子串 s[left..right] 是否为回文串
+     */
+    private boolean validPalindromic(char[] charArray, int left, int right) {
+        while (left < right) {
+            if (charArray[left] != charArray[right]) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
+动态规划 还在五毒神掌的过程中
+这边贴一个吸收了一半的高票
+
+首先这边的回文串要判断前后的元素，所以定义状态数组选用了二维数组。
+状态转移方程 在当前头尾字符相等时 dp[i][j] = dp[i+1][j-1]
+
+public class Solution {
+
+    public String longestPalindrome(String s) {
+        // 特判
+        int len = s.length();
+        if (len < 2) {
+            return s;
+        }
+
+        int maxLen = 1;
+        int begin = 0;
+
+        // dp[i][j] 表示 s[i, j] 是否是回文串
+        boolean[][] dp = new boolean[len][len];
+        char[] charArray = s.toCharArray();
+
+        for (int i = 0; i < len; i++) {
+            dp[i][i] = true;
+        }
+        for (int j = 1; j < len; j++) {
+            for (int i = 0; i < j; i++) {
+                if (charArray[i] != charArray[j]) {
+                    dp[i][j] = false;
+                } else {
+                    if (j - i < 3) {
+                        dp[i][j] = true;
+                    } else {
+                        dp[i][j] = dp[i + 1][j - 1];
+                    }
+                }
+
+                // 只要 dp[i][j] == true 成立，就表示子串 s[i..j] 是回文，此时记录回文长度和起始位置
+                if (dp[i][j] && j - i + 1 > maxLen) {
+                    maxLen = j - i + 1;
+                    begin = i;
+                }
+            }
+        }
+        return s.substring(begin, begin + maxLen);
+    }
+}
+
